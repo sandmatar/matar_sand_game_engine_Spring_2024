@@ -34,6 +34,10 @@ class Game:
         # init all varables, setup groups, instantiate classes
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
+       # self.power_ups = pg.sprite.Group()
+        #self.foods = pg.sprite.Group()
+        self.mobs = pg.sprite.Group()
+        self.coins = pg.sprite.Group()
        # self.player = Player(self, 10, 10)
         #for x in range(10, 20):
           #  Wall(self, x, 5)
@@ -50,6 +54,12 @@ class Game:
                  self.player = Player(self, col, row)
               if tile == 'C':
                   Coin(self, col, row)
+             # if tile == 'U':
+                   # PowerUp(self, col, row)
+             # if tile == 'F':
+                    #Food(self, col, row)
+              if tile == 'M':
+                    Mob(self, col, row)
    # run game
     def run(self):
         self.playing = True
@@ -71,11 +81,21 @@ class Game:
             pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
         for y in range(0,WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
+        
+        
+    def draw_text(self, surface, text, size, color, x, y):
+        font_name = pg.font.match_font('arial')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (x*TILESIZE,y*TILESIZE)
+        surface.blit(text_surface, text_rect)
     def draw(self):
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         pg.display.flip()
+        #self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
     # The input method
     def events(self):
         for event in pg.event.get():
@@ -90,6 +110,14 @@ class Game:
              #   self.player.move(dy=1)
              # if event.key == pg.K_UP:
              #   self.player.move(dy=-1)
+
+    def draw_text(self, surface, text, size, color, x, y):
+        font_name = pg.font.match_font('arial')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (x*TILESIZE,y*TILESIZE)
+        surface.blit(text_surface, text_rect)
 
     
     def show_start_screen(self):
