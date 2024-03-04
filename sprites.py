@@ -15,12 +15,14 @@ class Player(Sprite):
         Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
+        self.image = game.player_img
         self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         self.vx, self.vy = 0, 0
         self.x = x * TILESIZE
         self.y  = y * TILESIZE
         self.moneybag = 0
+        self.speed = 300
 
     #def move(self, dx=0, dy=0):
         #self.x += dx

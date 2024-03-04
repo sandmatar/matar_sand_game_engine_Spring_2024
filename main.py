@@ -1,6 +1,11 @@
 # This file was created by: Sandryan Matar
 # My first source control edit
 
+# Collectibles, player levels, kill enemies. 
+# jump verb. 
+
+
+
 # import necessary modules
 import pygame as pg 
 import sys 
@@ -8,8 +13,31 @@ from settings import *
 from sprites import *
 from random import randint
 from os import path
+from math import floor
 
 
+
+class Cooldown():
+    # sets all properties to zero when instantiated...
+     def __init__(self):
+        self.current_time = 0
+        self.event_time = 0
+        self.delta = 0
+        # ticking ensures the timer is counting...
+    # must use ticking to count up or down
+     def ticking(self):
+        self.current_time = floor((pg.time.get_ticks())/1000)
+        self.delta = self.current_time - self.event_time
+    # resets event time to zero - cooldown reset
+     def countdown(self, x):
+         x = x - self.delta
+         if x != None:
+             return x
+     def event_reset(self):
+         self.event_time = floor((pg.time.get_ticks())/1000)
+    # sets current time
+     def timer(self):
+         self.current_time = floor((pg.time.get_ticks())/1000)
 
 
 
@@ -27,6 +55,14 @@ class Game:
     # Defining the run method
     def load_data(self):
         game_folder = path.dirname(__file__)
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'images')
+        self.player_img = pg.image.load(path.join(img_folder, 'autobot.png')).convert_alpha()
+        '''
+        The with statement is a context manager in Python. 
+        It is used to ensure that a resource is properly closed or released 
+        after it is used. This can help to prevent errors and leaks.
+        '''
         self.map_data = []
         with open(path.join(game_folder, 'map.txt'), 'rt') as f:
            for line in f:
