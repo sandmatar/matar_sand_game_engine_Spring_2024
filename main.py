@@ -55,14 +55,13 @@ class Game:
     # Defining the run method
     def load_data(self):
         game_folder = path.dirname(__file__)
-        game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'images')
-        self.player_img = pg.image.load(path.join(img_folder, 'autobot.png')).convert_alpha()
-        '''
-        The with statement is a context manager in Python. 
-        It is used to ensure that a resource is properly closed or released 
-        after it is used. This can help to prevent errors and leaks.
-        '''
+        self.player_img = pg.image.load(path.join(img_folder, 'dobby.png')).convert_alpha()
+        #'''
+        #The with statement is a context manager in Python. 
+        #It is used to ensure that a resource is properly closed or released 
+        #after it is used. This can help to prevent errors and leaks.
+        #'''
         self.map_data = []
         with open(path.join(game_folder, 'map.txt'), 'rt') as f:
            for line in f:
@@ -132,7 +131,7 @@ class Game:
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         pg.display.flip()
-        #self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
+        self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
     # The input method
     def events(self):
         for event in pg.event.get():

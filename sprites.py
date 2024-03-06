@@ -12,11 +12,11 @@ from settings import *
 class Player(Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
-        Sprite.__init__(self, self.groups)
+        pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pg.Surface((TILESIZE, TILESIZE))
+        #self.image = pg.Surface((TILESIZE, TILESIZE))
         self.image = game.player_img
-        self.image.fill(YELLOW)
+        #self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         self.vx, self.vy = 0, 0
         self.x = x * TILESIZE
@@ -83,6 +83,7 @@ class Player(Sprite):
         if hits:
             if str(hits[0].__class__.__name__) == "Coin":
              self
+             coinbag = +1
    
     def collect_coins(self, dir):
         if dir == 'x':
@@ -118,9 +119,10 @@ class Player(Sprite):
         self.collide_with_walls('y')
         self.collide_with_group(self.game.coins, True)
 
-        # coin_hits = pg.sprite.spritecollide(self.game.coins, True)
-        # if coin_hits:
-        #     print("I got a coin")
+        #coin_hits = pg.sprite.spritecollide(self.game.coins, True, kill)
+        #if coin_hits:
+          #   print("I got a coin")
+          #   coinbag = + 1
         #self.collide_with_obj(self.game.power_ups, True, "powerup")
         #self.collide_with_obj(self.game.foods, True, "food")
         self.collide_with_obj(self.game.mobs, True, "mob")
