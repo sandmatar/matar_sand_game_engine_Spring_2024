@@ -86,56 +86,56 @@ class Player(Sprite):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
             if str(hits[0].__class__.__name__) == "Coin":
-             self
-             self.moneybag = +1
+             
+             self.moneybag += 1
             if str(hits[0].__class__.__name__) == "Emerald":
-             self
-             self.moneybag = +3
+             
+             self.moneybag += 3
    
 
 
-    def collect_coins(self, dir):
-        if dir == 'x':
-           hits = pg.sprite.spritecollide(self, self.game.coins, True)
-           if hits:
-               if self.vx > 0:
-                   self.x = hits[0].rect.top - self.rect.width
-               if self.vx < 0:
-                   self.x = hits[0].rect.bottom 
-               self.vx = 0
-               self.rect.x = self.x
+    # def collect_coins(self, dir):
+    #     if dir == 'x':
+    #        hits = pg.sprite.spritecollide(self, self.game.coins, True)
+    #        if hits:
+    #            if self.vx > 0:
+    #                self.x = hits[0].rect.top - self.rect.width
+    #            if self.vx < 0:
+    #                self.x = hits[0].rect.bottom 
+    #            self.vx = 0
+    #            self.rect.x = self.x
 
-        if dir == 'y':
-           hits = pg.sprite.spritecollide(self, self.game.coins, True)
-           if hits:
-                if self.vy > 0:
-                    self.y = hits[0].rect.top - self.rect.width
-                if self.vy < 0:
-                    self.y = hits[0].rect.bottom 
-                self.vy = 0
-                self.rect.y = self.y
+    #     if dir == 'y':
+    #        hits = pg.sprite.spritecollide(self, self.game.coins, True)
+    #        if hits:
+    #             if self.vy > 0:
+    #                 self.y = hits[0].rect.top - self.rect.width
+    #             if self.vy < 0:
+    #                 self.y = hits[0].rect.bottom 
+    #             self.vy = 0
+    #             self.rect.y = self.y
 
 
-    def collect_emeralds(self, dir):
-        if dir == 'x':
-           hits = pg.sprite.spritecollide(self, self.game.emeralds, True)
-           if hits:
-               if self.vx > 0:
-                   self.x = hits[0].rect.top - self.rect.width
-               if self.vx < 0:
-                   self.x = hits[0].rect.bottom 
-               self.vx = 0
-               self.rect.x = self.x
+    # def collect_emeralds(self, dir):
+    #     if dir == 'x':
+    #        hits = pg.sprite.spritecollide(self, self.game.emeralds, True)
+    #        if hits:
+    #            if self.vx > 0:
+    #                self.x = hits[0].rect.top - self.rect.width
+    #            if self.vx < 0:
+    #                self.x = hits[0].rect.bottom 
+    #            self.vx = 0
+    #            self.rect.x = self.x
 
-        if dir == 'y':
-           hits = pg.sprite.spritecollide(self, self.game.emeralds, True)
-           if hits:
-                if self.vy > 0:
-                    self.y = hits[0].rect.top - self.rect.width
-                if self.vy < 0:
-                    self.y = hits[0].rect.bottom 
-                self.vy = 0
-                self.rect.y = self.y
+    #     if dir == 'y':
+    #        hits = pg.sprite.spritecollide(self, self.game.emeralds, True)
+    #        if hits:
+    #             if self.vy > 0:
+    #                 self.y = hits[0].rect.top - self.rect.width
+    #             if self.vy < 0:
+    #                 self.y = hits[0].rect.bottom 
+    #             self.vy = 0
+    #             self.rect.y = self.y
     
 
     def update(self):
