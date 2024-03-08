@@ -3,7 +3,7 @@ TITLE = "tlou"
 
 FPS = 30
 
-PLAYER_SPEED = 300
+PLAYER_SPEED = 500
 #this is 32 grids wide
 WIDTH = 1024
 #this is 24 grids high

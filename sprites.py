@@ -88,7 +88,12 @@ class Player(Sprite):
             if str(hits[0].__class__.__name__) == "Coin":
              self
              coinbag = +1
+            if str(hits[0].__class__.__name__) == "Emerald":
+             self
+             coinbag = +1
    
+
+
     def collect_coins(self, dir):
         if dir == 'x':
            hits = pg.sprite.spritecollide(self, self.game.coins, True)
@@ -111,8 +116,28 @@ class Player(Sprite):
                 self.rect.y = self.y
 
 
+    def collect_emeralds(self, dir):
+        if dir == 'x':
+           hits = pg.sprite.spritecollide(self, self.game.emeralds, True)
+           if hits:
+               if self.vx > 0:
+                   self.x = hits[0].rect.top - self.rect.width
+               if self.vx < 0:
+                   self.x = hits[0].rect.bottom 
+               self.vx = 0
+               self.rect.x = self.x
 
+        if dir == 'y':
+           hits = pg.sprite.spritecollide(self, self.game.emeralds, True)
+           if hits:
+                if self.vy > 0:
+                    self.y = hits[0].rect.top - self.rect.width
+                if self.vy < 0:
+                    self.y = hits[0].rect.bottom 
+                self.vy = 0
+                self.rect.y = self.y
     
+
     def update(self):
         self.get_keys()
         self.x += self.vx * self.game.dt
@@ -122,6 +147,8 @@ class Player(Sprite):
         self.rect.y = self.y
         self.collide_with_walls('y')
         self.collide_with_group(self.game.coins, True)
+        self.collide_with_group(self.game.emeralds, True)
+        #self.collide_with_group(self.game.powerups, True)
 
         #coin_hits = pg.sprite.spritecollide(self.game.coins, True, kill)
         #if coin_hits:
@@ -156,6 +183,18 @@ class Coin(pg.sprite.Sprite):
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
         self.image.fill(YELLOW)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+class Emerald(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.emeralds
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pg.Surface((TILESIZE, TILESIZE))
+        self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -254,18 +293,18 @@ class Super(pg.sprite.Sprite):
           self.collide_with_walls('y')
 
 #class PowerUp(Sprite):
-   # def __init__(self, game, x, y):
-      #  # add powerup groups later....
-       # self.groups = game.all_sprites, game.power_ups
+    #def __init__(self, game, x, y):
+      # add powerup groups later....
+      #  self.groups = game.all_sprites, game.power_ups
        # Sprite.__init__(self, self.groups)
-       # self.game = game
-       # self.image = pg.Surface((TILESIZE, TILESIZE))
-       # self.image.fill(RED)
-       # self.rect = self.image.get_rect()
+      #  self.game = game
+      #  self.image = pg.Surface((TILESIZE, TILESIZE))
+      #  self.image.fill(RED)
+      #  self.rect = self.image.get_rect()
        # self.x = x
-       # self.y = y
-       # self.rect.x = x * TILESIZE
-       # self.rect.y = y * TILESIZE
+      #  self.y = y
+     #   self.rect.x = x * TILESIZE
+      #  self.rect.y = y * TILESIZE
 
 # Food(Sprite):
    # def __init__(self, game, x, y):

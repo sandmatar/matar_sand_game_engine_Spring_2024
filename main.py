@@ -1,7 +1,7 @@
 # This file was created by: Sandryan Matar
 # My first source control edit
 
-# Collectibles, player levels, kill enemies. 
+# Collectibles, new enemies, kill enemies. 
 # jump verb. 
 
 
@@ -75,6 +75,7 @@ class Game:
         self.mobs = pg.sprite.Group()
         self.coins = pg.sprite.Group()
         self.supers = pg.sprite.Group()
+        self.emeralds = pg.sprite.Group()
        # self.player = Player(self, 10, 10)
         #for x in range(10, 20):
           #  Wall(self, x, 5)
@@ -91,7 +92,9 @@ class Game:
                  self.player = Player(self, col, row)
               if tile == 'C':
                   Coin(self, col, row)
-             # if tile == 'U':
+              if tile == 'E':
+                  Emerald(self, col, row)
+              #waaaaasaif tile == 'U':
                    # PowerUp(self, col, row)
              # if tile == 'F':
                     #Food(self, col, row)
