@@ -56,6 +56,10 @@ class Player(Sprite):
             print("I collided with mob")
             self.image.fill(GREEN)
             self.hitpoints -= 10
+        if hits and desc == "super":
+            print("I collided with super")
+            self.image.fill(RED)
+            self.hitpoints -= 10
 
     def collide_with_walls(self, dir):
         if dir == 'x':
@@ -126,6 +130,7 @@ class Player(Sprite):
         #self.collide_with_obj(self.game.power_ups, True, "powerup")
         #self.collide_with_obj(self.game.foods, True, "food")
         self.collide_with_obj(self.game.mobs, True, "mob")
+        self.collide_with_obj(self.game.supers, True, "super")
         #self.collide_with
 # create a wall class that blocks player movement
 class Wall(Sprite):
@@ -174,6 +179,47 @@ class Mob(pg.sprite.Sprite):
         if self.vx != 0 and self.vy != 0:
             self.vx *= 0.7071
             self.vy *= 0.7071
+        
+
+    def collide_with_walls(self, dir):
+        if dir == 'x':
+           hits = pg.sprite.spritecollide(self, self.game.walls, False)
+           if hits:
+               if self.vx > 0:
+                   self.x = hits[0].rect.left - self.rect.width
+               if self.vx < 0:
+                   self.x = hits[0].rect.right 
+               self.vx = -self.vx
+               self.rect.x = self.x
+
+        if dir == 'y':
+           hits = pg.sprite.spritecollide(self, self.game.walls, False)
+           if hits:
+                if self.vy > 0:
+                    self.y = hits[0].rect.top - self.rect.width
+                if self.vy < 0:
+                    self.y = hits[0].rect.bottom 
+                self.vy = -self.vy
+                self.rect.y = self.y
+    
+
+class Super(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.supers
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pg.Surface((TILESIZE, TILESIZE))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+        self.rect.x = x
+        self.rect.y = y 
+        self.vx = ENEMY_SPEED
+        self.vy = ENEMY_SPEED
+        if self.vx != 0 and self.vy != 0:
+            self.vx *= 1.500
+            self.vy *= 1.500
         
 
     def collide_with_walls(self, dir):

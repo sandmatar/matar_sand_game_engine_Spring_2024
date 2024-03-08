@@ -74,6 +74,7 @@ class Game:
         #self.foods = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.coins = pg.sprite.Group()
+        self.supers = pg.sprite.Group()
        # self.player = Player(self, 10, 10)
         #for x in range(10, 20):
           #  Wall(self, x, 5)
@@ -96,6 +97,8 @@ class Game:
                     #Food(self, col, row)
               if tile == 'M':
                     Mob(self, col, row)
+              if tile == 'S':
+                    Super(self, col, row)
    # run game
     def run(self):
         self.playing = True
