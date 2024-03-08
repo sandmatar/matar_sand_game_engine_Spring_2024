@@ -94,7 +94,7 @@ class Game:
                   Coin(self, col, row)
               if tile == 'E':
                   Emerald(self, col, row)
-              #waaaaasaif tile == 'U':
+              # tile == 'U':
                    # PowerUp(self, col, row)
              # if tile == 'F':
                     #Food(self, col, row)
@@ -136,8 +136,9 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         self.all_sprites.draw(self.screen)
+        self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)        
         pg.display.flip()
-        self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
+
     # The input method
     def events(self):
         for event in pg.event.get():

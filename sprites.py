@@ -87,10 +87,10 @@ class Player(Sprite):
         if hits:
             if str(hits[0].__class__.__name__) == "Coin":
              self
-             coinbag = +1
+             self.moneybag = +1
             if str(hits[0].__class__.__name__) == "Emerald":
              self
-             coinbag = +5
+             self.moneybag = +3
    
 
 
