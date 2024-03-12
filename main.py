@@ -1,13 +1,13 @@
 # This file was created by: Sandryan Matar
 # My first source control edit
 
-# Collectibles, new enemies, kill enemies. 
+# New map, new enemies, kill enemies. 
 # jump verb. 
 
 
 
 # import necessary modules
-import pygame as pg 
+import pygame as pg
 import sys 
 from settings import * 
 from sprites import *
@@ -15,6 +15,8 @@ from random import randint
 from os import path
 from math import floor
 
+#LEVEL1 = map.txt
+#LEVEL2 = mapp.txt
 
 
 class Cooldown():
@@ -57,15 +59,26 @@ class Game:
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'images')
         self.player_img = pg.image.load(path.join(img_folder, 'dobby.png')).convert_alpha()
-        #'''
-        #The with statement is a context manager in Python. 
-        #It is used to ensure that a resource is properly closed or released 
-        #after it is used. This can help to prevent errors and leaks.
-        #'''
+        '''
+        The with statement is a context manager in Python. 
+        It is used to ensure that a resource is properly closed or released 
+        after it is used. This can help to prevent errors and leaks.
+        '''
         self.map_data = []
         with open(path.join(game_folder, 'map.txt'), 'rt') as f:
            for line in f:
               self.map_data.append(line)
+     
+    
+    
+    def change_level(self):
+           with open(path.join(game_folder, LEVEL1), 'rt') as f:
+            for line in f:
+                print(line)
+                self.map_data.append(line)
+
+    
+   
     def new(self):
         # init all varables, setup groups, instantiate classes
         self.all_sprites = pg.sprite.Group()
@@ -138,6 +151,7 @@ class Game:
         self.all_sprites.draw(self.screen)
         self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)        
         pg.display.flip()
+       
 
     # The input method
     def events(self):

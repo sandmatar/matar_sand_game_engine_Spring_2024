@@ -91,7 +91,7 @@ class Player(Sprite):
             if str(hits[0].__class__.__name__) == "Emerald":
              
              self.moneybag += 3
-   
+             
 
 
     # def collect_coins(self, dir):
