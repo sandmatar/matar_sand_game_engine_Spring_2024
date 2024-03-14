@@ -15,8 +15,8 @@ from random import randint
 from os import path
 from math import floor
 
-#LEVEL1 = map.txt
-#LEVEL2 = mapp.txt
+LEVEL1 = "map.txt"
+LEVEL2 = "mapp.txt"
 
 
 class Cooldown():
@@ -70,15 +70,36 @@ class Game:
               self.map_data.append(line)
      
     
-    
-    def change_level(self):
-           with open(path.join(game_folder, LEVEL1), 'rt') as f:
-            for line in f:
+    # new map after coinbag full
+    def change_level(self, lvl):
+           for s in self.all_sprites:
+               s.kill()
+          # if self.moneybag > 15:
+           with open(path.join(self.game_folder, 'mapp.txt'), 'rt') as f:
+              for line in f:
                 print(line)
                 self.map_data.append(line)
-
-    
+                self.all_sprites = pg.sprite.Group()
+                self.walls = pg.sprite.Group()
+                self.mobs = pg.sprite.Group()
+                self.coins = pg.sprite.Group()
+                self.supers = pg.sprite.Group()
+                self.emeralds = pg.sprite.Group()
+                for row, tiles in enumerate(self.map_data):
+                  print(self.map_data)
+                  for col, tile in enumerate(tiles):
+                      if tile == '1':
+                       Wall(self, col, row)
+                      if tile == 'P':
+                        self.player = Player(self, col, row)
+                      if tile == 'C':
+                         Coin(self, col, row)
+                      if tile == 'E':
+                       Emerald(self, col, row)        
    
+
+
+
     def new(self):
         # init all varables, setup groups, instantiate classes
         self.all_sprites = pg.sprite.Group()
@@ -115,6 +136,7 @@ class Game:
                     Mob(self, col, row)
               if tile == 'S':
                     Super(self, col, row)
+                
    # run game
     def run(self):
         self.playing = True
@@ -130,6 +152,8 @@ class Game:
 # import all sprites while playing
     def update(self):
         self.all_sprites.update()
+        if self.player.moneybag > 15:
+            self.change_level('mapp.txt')
 # draw game map
     def draw_grid(self):
         for x in range(0,WIDTH, TILESIZE):
