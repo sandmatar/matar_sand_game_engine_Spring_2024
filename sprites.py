@@ -9,6 +9,8 @@ from settings import *
 # create a wall class
 # Create a player class with all the basic stats and functions
 
+vec =pg.math.Vector2
+
 
 class Player(Sprite):
     def __init__(self, game, x, y):
@@ -24,11 +26,35 @@ class Player(Sprite):
         self.y  = y * TILESIZE
         self.moneybag = 0
         self.speed = 300
+        self.weapon_drawn = False
+        self.weapon_dir = (0,0)
+        self.weapon = Sword(self.game, self.rect.x, self.rect.y, 16, 16, (0,0))
+        
+        def get_mouse(self):
+            if pg.mouse.get_pressed()[0]:
+                if self.weapon_drawn == False:
+                   self.weapon_drawn = True
+                if abs(pg.mouse.get_pos()[0]-self.rect.x) > abs(pg.mouse.get_pos()[1]-self.rect.y):
+                    if pg.mouse.get_pos()[0]-self.rect.x > 0:
+                        print("swing to pos x")
+                        self.weapon = Sword(self.game, self.rect.x+TILESIZE, self.rect.y, 16, 16, (1,0))
+                    if pg.mouse.get_pos()[0]-self.rect.x < 0:
+                        print("swing to neg x")
+                        self.weapon = Sword(self.game, self.rect.x-16, self.rect.y, 16, 16, (1,0))
+                else:
+                    if pg.mouse.get_pos()[1]-self.rect.y > 0:
+                        print("swing to pos y")
+                    if pg.mouse.get_pos()[1]-self.rect.y < 0:
+                        print("swing to neg y")
+        if pg.mouse.get_pressed()[1]:
+            print("middle click")
+        if pg.mouse.get_pressed()[2]:
+            print("right click")
 
     #def move(self, dx=0, dy=0):
         #self.x += dx
         #self.y += dy
-   # movement
+   # movement/utilities
     def get_keys(self):
         self.vx, self.vy = 0, 0
         keys = pg.key.get_pressed()
@@ -43,6 +69,14 @@ class Player(Sprite):
         if self.vx != 0 and self.vy != 0:
             self.vx *= 0.7071
             self.vy *= 0.7071
+        if keys[pg.K_e]:
+            print("trying to shoot...")
+            self.poof()
+    # bullet
+    def poof(self):
+        p = Bullet(self.game, self.rect.x, self.rect.y)
+        print(p.rect.x)
+        print(p.rect.y)
 
 #collects objects
     def collide_with_obj(self, group, kill, desc):
@@ -261,6 +295,7 @@ class Super(pg.sprite.Sprite):
         if self.vx != 0 and self.vy != 0:
             self.vx *= 1.500
             self.vy *= 1.500
+        self.hitpoints = 1
         
 
         
@@ -295,6 +330,77 @@ class Super(pg.sprite.Sprite):
           self.collide_with_walls('x')
           self.rect.y = self.y
           self.collide_with_walls('y')
+          if self.hitpoints < 1:
+             self.kill()
+
+
+
+# bullets
+class Bullet(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.bullets
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pg.Surface((TILESIZE/4, TILESIZE/4))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = 10
+        print("BAM")
+    def collide_with_group(self, group, kill):
+        hits = pg.sprite.spritecollide(self, group, kill)
+    def update(self):
+        self.collide_with_group(self.game.coins, True)
+        self.rect.y -= self.speed
+        # pass
+#weapon added
+class Sword(pg.sprite.Sprite):
+    def __init__(self, game, x, y, w, h, dir):
+        self.groups = game.all_sprites, game.weapons
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pg.Surface((w, h))
+        self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
+        self.vx, self.vy = 0, 0
+        self.x = x
+        self.y = y
+        self.rect.x = x
+        self.rect.y = y
+        self.w = w
+        self.h = h
+        self.rect.width = w
+        self.rect.height = h
+        self.pos = vec(x,y)
+        self.dir = dir
+        print("I created a sword")
+    def collide_with_group(self, group, kill):
+        hits = pg.sprite.spritecollide(self, group, kill)
+        if hits:
+            if str(hits[0].__class__.__name__) == "Mob":
+                print("you hurt a mob!")
+                hits[0].hitpoints -= 1
+            if str(hits[0].__class__.__name__) == "Super":
+                print("you hurt a super!")
+                hits[0].hitpoints -= 3
+    def track(self, obj):
+        self.rect.x = obj.rect.x
+        self.rect.y = obj.rect.y
+        self.vx = obj.vx
+        self.vy = obj.vy
+    def update(self):
+        if self.game.player.weapon_drawn == False:
+            self.kill()
+        self.track(self.game.player)
+        self.x += self.vx * self.game.dt
+        self.y += self.vy * self.game.dt
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.collide_with_group(self.game.mobs, False)
+
           #if self.hitpoints < 1:
           #  print("mob2 should be dead")
           #  self.kill()

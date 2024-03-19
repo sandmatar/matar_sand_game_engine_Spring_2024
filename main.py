@@ -106,6 +106,8 @@ class Game:
         self.coins = pg.sprite.Group()
         self.supers = pg.sprite.Group()
         self.emeralds = pg.sprite.Group()
+        self.weapons = pg.sprite.Group()
+        self.bullets = pg.sprite.Group()
        # self.player = Player(self, 10, 10)
         #for x in range(10, 20):
           #  Wall(self, x, 5)
