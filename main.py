@@ -56,46 +56,42 @@ class Game:
         #load saved game data etc
     # Defining the run method
     def load_data(self):
-        game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, 'images')
-        self.player_img = pg.image.load(path.join(img_folder, 'dobby.png')).convert_alpha()
+        self.game_folder = path.dirname(__file__)
+        self.img_folder = path.join(self.game_folder, 'images')
+        self.player_img = pg.image.load(path.join(self.img_folder, 'dobby.png')).convert_alpha()
         '''
         The with statement is a context manager in Python. 
         It is used to ensure that a resource is properly closed or released 
         after it is used. This can help to prevent errors and leaks.
         '''
         self.map_data = []
-        with open(path.join(game_folder, 'map.txt'), 'rt') as f:
+        with open(path.join(self.game_folder, 'map.txt'), 'rt') as f:
            for line in f:
               self.map_data.append(line)
      
     
     # new map after coinbag full
     def change_level(self, lvl):
-           for s in self.all_sprites:
+        for s in self.all_sprites:
                s.kill()
-          # if self.moneybag > 15:
-           with open(path.join(self.game_folder, 'mapp.txt'), 'rt') as f:
+        self.moneybag = 0
+        self.map_data = []
+        with open(path.join(self.game_folder, 'mapp.txt'), 'rt') as f:
               for line in f:
                 print(line)
                 self.map_data.append(line)
-                self.all_sprites = pg.sprite.Group()
-                self.walls = pg.sprite.Group()
-                self.mobs = pg.sprite.Group()
-                self.coins = pg.sprite.Group()
-                self.supers = pg.sprite.Group()
-                self.emeralds = pg.sprite.Group()
-                for row, tiles in enumerate(self.map_data):
-                  print(self.map_data)
-                  for col, tile in enumerate(tiles):
-                      if tile == '1':
-                       Wall(self, col, row)
-                      if tile == 'P':
-                        self.player = Player(self, col, row)
-                      if tile == 'C':
-                         Coin(self, col, row)
-                      if tile == 'E':
-                       Emerald(self, col, row)        
+       
+        for row, tiles in enumerate(self.map_data):
+            print(self.map_data)
+            for col, tile in enumerate(tiles):
+                if tile == '1':
+                    Wall(self, col, row)
+                if tile == 'P':
+                    self.player = Player(self, col, row)
+                if tile == 'C':
+                    Coin(self, col, row)
+                if tile == 'E':
+                    Emerald(self, col, row)        
    
 
 
@@ -150,6 +146,7 @@ class Game:
         pg.quit()
         sys.exit()
 # import all sprites while playing
+#change map
     def update(self):
         self.all_sprites.update()
         if self.player.moneybag > 15:
@@ -161,7 +158,7 @@ class Game:
         for y in range(0,WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
         
-        
+# shows currency
     def draw_text(self, surface, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
         font = pg.font.Font(font_name, size)
@@ -191,7 +188,7 @@ class Game:
              #   self.player.move(dy=1)
              # if event.key == pg.K_UP:
              #   self.player.move(dy=-1)
-
+#shows currency 
     def draw_text(self, surface, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
         font = pg.font.Font(font_name, size)

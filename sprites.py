@@ -9,6 +9,7 @@ from settings import *
 # create a wall class
 # Create a player class with all the basic stats and functions
 
+
 class Player(Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -27,7 +28,7 @@ class Player(Sprite):
     #def move(self, dx=0, dy=0):
         #self.x += dx
         #self.y += dy
-
+   # movement
     def get_keys(self):
         self.vx, self.vy = 0, 0
         keys = pg.key.get_pressed()
@@ -43,7 +44,7 @@ class Player(Sprite):
             self.vx *= 0.7071
             self.vy *= 0.7071
 
-
+#collects objects
     def collide_with_obj(self, group, kill, desc):
         hits = pg.sprite.spritecollide(self, group, kill)
        # if hits and desc == "food":
@@ -60,7 +61,7 @@ class Player(Sprite):
             print("I collided with super")
             self.image.fill(RED)
             self.hitpoints -= 10
-
+#collision
     def collide_with_walls(self, dir):
         if dir == 'x':
            hits = pg.sprite.spritecollide(self, self.game.walls, False)
@@ -81,7 +82,7 @@ class Player(Sprite):
                     self.y = hits[0].rect.bottom 
                 self.vy = 0
                 self.rect.y = self.y
-        
+#collect coins
     def collide_with_group(self, group, kill):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
@@ -137,7 +138,7 @@ class Player(Sprite):
     #             self.vy = 0
     #             self.rect.y = self.y
     
-
+#movement/collision
     def update(self):
         self.get_keys()
         self.x += self.vx * self.game.dt
@@ -175,7 +176,7 @@ class Wall(Sprite):
     
 
 
-
+#new currency
 class Coin(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.coins
@@ -188,6 +189,7 @@ class Coin(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+#new currency
 class Emerald(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.emeralds
@@ -200,7 +202,7 @@ class Emerald(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
-
+#enemy added
 class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.mobs
@@ -219,7 +221,7 @@ class Mob(pg.sprite.Sprite):
             self.vx *= 0.7071
             self.vy *= 0.7071
         
-
+     #mob movement
     def collide_with_walls(self, dir):
         if dir == 'x':
            hits = pg.sprite.spritecollide(self, self.game.walls, False)
@@ -241,7 +243,7 @@ class Mob(pg.sprite.Sprite):
                 self.vy = -self.vy
                 self.rect.y = self.y
     
-
+  #Creates new mob
 class Super(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.supers
@@ -261,6 +263,8 @@ class Super(pg.sprite.Sprite):
             self.vy *= 1.500
         
 
+        
+#new mob movement
     def collide_with_walls(self, dir):
         if dir == 'x':
            hits = pg.sprite.spritecollide(self, self.game.walls, False)
@@ -291,6 +295,28 @@ class Super(pg.sprite.Sprite):
           self.collide_with_walls('x')
           self.rect.y = self.y
           self.collide_with_walls('y')
+          #if self.hitpoints < 1:
+          #  print("mob2 should be dead")
+          #  self.kill()
+         # self.sensor()
+          #if self.chasing:
+           # self.rot = (self.game.player.rect.center - self.pos).angle_to(vec(1, 0))
+            # self.image = pg.transform.rotate(self.image, 45)
+            # self.rect = self.image.get_rect()
+           # self.rect.center = self.pos
+           # self.acc = vec(self.speed, 0).rotate(-self.rot)
+           # self.acc += self.vel * -1
+           # self.vel += self.acc * self.game.dt
+           # self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
+            # self.hit_rect.centerx = self.pos.x
+           # collide_with_walls(self, self.game.walls, 'x')
+            # self.hit_rect.centery = self.pos.y
+           # collide_with_walls(self, self.game.walls, 'y')
+            # self.hit_rect.centery = self.pos.y
+           
+            # self.rect.center = self.hit_rect.center
+            # if self.health <= 0:
+            #     self.kill()
 
 #class PowerUp(Sprite):
     #def __init__(self, game, x, y):
