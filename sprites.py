@@ -4,13 +4,33 @@
 import pygame as pg
 from pygame.sprite import Sprite
 from settings import *
+from os import path
 # create a player class
 
 # create a wall class
 # Create a player class with all the basic stats and functions
-
+rot = 7
 vec =pg.math.Vector2
 
+
+# needed for animated sprite
+SPRITESHEET = "theBell.png"
+# needed for animated sprite
+game_folder = path.dirname(__file__)
+img_folder = path.join(game_folder, 'images')
+# needed for animated sprite
+class Spritesheet:
+    # utility class for loading and parsing spritesheets
+    def __init__(self, filename):
+     self.spritesheet = pg.image.load(filename).convert()
+
+    def get_image(self, x, y, width, height):
+        # grab an image out of a larger spritesheet
+        image = pg.Surface((width, height))
+        image.blit(self.spritesheet, (0, 0), (x, y, width, height))
+        # image = pg.transform.scale(image, (width, height))
+        image = pg.transform.scale(image, (width * 1, height * 1))
+        return image
 
 class Player(Sprite):
     def __init__(self, game, x, y):
@@ -19,6 +39,11 @@ class Player(Sprite):
         self.game = game
         #self.image = pg.Surface((TILESIZE, TILESIZE))
         self.image = game.player_img
+        self.spritesheet = Spritesheet(path.join(img_folder, SPRITESHEET))
+        # needed for animated sprite
+        self.spritesheet = Spritesheet(path.join(img_folder, SPRITESHEET))
+        self.load_images()
+        self.image = self.standing_frames[0]
         #self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         self.vx, self.vy = 0, 0
@@ -29,6 +54,14 @@ class Player(Sprite):
         self.weapon_drawn = False
         self.weapon_dir = (0,0)
         self.weapon = Sword(self.game, self.rect.x, self.rect.y, 16, 16, (0,0))
+        self.current_frame = 0
+        # needed for animated sprite
+        self.last_update = 0
+        self.material = True
+        # needed for animated sprite
+        self.jumping = False
+        # needed for animated sprite
+        self.walking = False
         
         def get_mouse(self):
             if pg.mouse.get_pressed()[0]:
@@ -77,6 +110,41 @@ class Player(Sprite):
         p = Bullet(self.game, self.rect.x, self.rect.y)
         print(p.rect.x)
         print(p.rect.y)
+
+
+    def load_images(self):
+        self.standing_frames = [self.spritesheet.get_image(0,0, 32, 32), 
+                                self.spritesheet.get_image(32,0, 32, 32)]
+        # for frame in self.standing_frames:
+        #     frame.set_colorkey(BLACK)
+
+        # add other frame sets for different poses etc.
+
+    # needed for animated sprite        
+    def animate(self):
+        now = pg.time.get_ticks()
+        if now - self.last_update > 350:
+            self.last_update = now
+            self.current_frame = (self.current_frame + 1) % len(self.standing_frames)
+            bottom = self.rect.bottom
+            self.image = self.standing_frames[self.current_frame]
+            self.rect = self.image.get_rect()
+            self.rect.bottom = bottom
+    def update(self):
+        # needed for animated sprite
+        self.animate()
+        self.get_keys()
+        # self.power_up_cd.ticking()
+        # pass
+        # # self.rect.x += 1
+        self.chasing()
+        self.x += self.vx * self.game.dt/rot
+        self.y += self.vy * self.game.dt/rot
+        self.x += self.vx * self.game.dt
+        self.y += self.vy * self.game.dt
+        self.rect.x = self.x
+        self.collide_with_walls('x')
+        self.rect.y = self.y
 
 #collects objects
     def collide_with_obj(self, group, kill, desc):
@@ -335,7 +403,7 @@ class Super(pg.sprite.Sprite):
 
 
 
-# bullets
+# bullets: Credit to Mr. Cozort
 class Bullet(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.bullets

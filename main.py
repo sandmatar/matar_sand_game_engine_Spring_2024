@@ -14,6 +14,7 @@ from sprites import *
 from random import randint
 from os import path
 from math import floor
+import images
 
 LEVEL1 = "map.txt"
 LEVEL2 = "mapp.txt"
