@@ -115,6 +115,9 @@ class Player(Sprite):
     def load_images(self):
         self.standing_frames = [self.spritesheet.get_image(0,0, 32, 32), 
                                 self.spritesheet.get_image(32,0, 32, 32)]
+        
+        #self.standing_frames = [self.spritesheet.get_image(64,0, 32, 32)] 
+                              #  self.spritesheet.get_image(96,0, 32, 32)]
         # for frame in self.standing_frames:
         #     frame.set_colorkey(BLACK)
 

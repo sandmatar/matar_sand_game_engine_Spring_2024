@@ -4,6 +4,9 @@
 # New map, new enemies, kill enemies. 
 # jump verb. 
 
+#BETA GOALS:
+ #First goal; more objectives
+ #Second goal; more maps
 
 
 # import necessary modules
