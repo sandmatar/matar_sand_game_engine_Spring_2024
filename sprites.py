@@ -428,6 +428,7 @@ class Bullet(pg.sprite.Sprite):
         self.rect.y -= self.speed
         # pass
 #weapon added
+#fix sword and projectiles.
 class Sword(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h, dir):
         self.groups = game.all_sprites, game.weapons
@@ -447,7 +448,7 @@ class Sword(pg.sprite.Sprite):
         self.rect.height = h
         self.pos = vec(x,y)
         self.dir = dir
-        print("I created a sword")
+       # print("I created a sword")
     def collide_with_group(self, group, kill):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
