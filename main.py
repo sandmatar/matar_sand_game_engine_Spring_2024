@@ -51,6 +51,8 @@ class Cooldown():
 class Game:
     # game screen and run
     def __init__(self):
+        self.player = None  
+        self.enemy_spawn_timer = 0
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
@@ -95,7 +97,8 @@ class Game:
                 if tile == 'C':
                     Coin(self, col, row)
                 if tile == 'E':
-                    Emerald(self, col, row)        
+                    Emerald(self, col, row)    
+                        
    
 
 
@@ -138,7 +141,9 @@ class Game:
                     Mob(self, col, row)
               if tile == 'S':
                     Super(self, col, row)
-                
+              if tile == 'R':
+                    new_enemy = Super(self, col, row)
+                    new_enemy.spawn(self.screen.get_width(), self.screen.get_height())
    # run game
     def run(self):
         self.playing = True
@@ -157,6 +162,18 @@ class Game:
         self.all_sprites.update()
         if self.player.moneybag > 15:
             self.change_level('mapp.txt')
+        self.enemy_spawn_timer += self.dt
+        if self.enemy_spawn_timer > 100:
+            self.spawn_enemies()
+            self.enemy_spawn_timer = 10
+        
+
+    def spawn_enemies(self):
+        for _ in range(12):
+            col = random.randint(0, len(self.map_data[0]) - 1)  # Random column
+            row = random.randint(0, len(self.map_data) - 1)     # Random row
+            if self.map_data[row][col] == '.':
+                Super(self, col, row, self.screen.get_width(), self.screen.get_height())
 # draw game map
     def draw_grid(self):
         for x in range(0,WIDTH, TILESIZE):

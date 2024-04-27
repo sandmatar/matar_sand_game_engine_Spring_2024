@@ -5,6 +5,8 @@ import pygame as pg
 from pygame.sprite import Sprite
 from settings import *
 from os import path
+from random import randint
+import random
 # create a player class
 
 # create a wall class
@@ -367,6 +369,17 @@ class Super(pg.sprite.Sprite):
             self.vx *= 1.500
             self.vy *= 1.500
         self.hitpoints = 1
+        self.spawn(WIDTH, HEIGHT)
+
+
+    def spawn(self, WIDTH, HEIGHT):
+        # Set initial position to a random location within the game area
+        self.rect.x = random.randint(0, WIDTH - TILESIZE)
+        self.rect.y = random.randint(0, HEIGHT - TILESIZE)
+        # Ensure enemy does not spawn on top of player
+        while self.game.player and self.rect.colliderect(self.game.player.rect):
+            self.rect.x = random.randint(0, WIDTH - TILESIZE)
+            self.rect.y = random.randint(0, HEIGHT - TILESIZE)
         
 
         
