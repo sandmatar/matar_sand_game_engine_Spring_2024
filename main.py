@@ -1,12 +1,15 @@
 # This file was created by: Sandryan Matar
 # My first source control edit
 
-# New map, new enemies, kill enemies. 
-# jump verb. 
+# New map, new enemies, kill enemies
+# jump verb
 
 #BETA GOALS:
- #First goal; more objectives
+ #First goal; more obstacles against the player (Random spawning)
  #Second goal; more maps
+
+
+
 
 
 # import necessary modules
@@ -18,10 +21,52 @@ from random import randint
 from os import path
 from math import floor
 import images
+import pygame.display
 
 LEVEL1 = "map.txt"
 LEVEL2 = "mapp.txt"
 
+#made in assistance with ChatGPT
+pg.display
+class Jumpscare():
+    def __init__(self, screen_width, screen_height):
+        self.jumpscares = pg.image.load(path.join(img_folder, 'jumpscare1.jpg')).convert_alpha()
+        # Scale jumpscare image to match screen resolution
+        self.jumpscares = pg.transform.scale(self.jumpscares, (screen_width, screen_height))
+
+    def trigger_jumpscare(self, screen):
+        screen.blit(self.jumpscares, (0, 0))  # Blit the jumpscare onto the screen
+        pg.display.flip()
+        pg.time.wait(2000)  # Display jumpscares for 2 seconds
+
+# Initialize Pygame 
+pg.init()
+
+# Set up the display
+screen_width = 1024
+screen_height = 768
+screen = pg.display.set_mode((screen_width, screen_height))
+
+# Create an instance of Jumpscare
+jumpscare = Jumpscare(screen_width, screen_height)
+
+# Simulate enemies and player
+#player_health = 10
+#enemy_attack_chance = 100  # Adjust probability as needed
+
+# Game loop
+#running = True
+
+    # Simulate enemy attack
+#if player_health > 0 and random.random() < enemy_attack_chance:
+        # Player is attacked by enemy
+       # player_health -= 10  # Decrease player's health
+        #if player_health <= 0:
+            # Player is killed, trigger jumpscare
+            #jumpscare.trigger_jumpscare(screen)
+
+    # Update display
+pg.display.update()
 
 class Cooldown():
     # sets all properties to zero when instantiated...

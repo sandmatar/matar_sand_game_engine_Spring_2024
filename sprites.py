@@ -168,6 +168,9 @@ class Player(Sprite):
             print("I collided with super")
             self.image.fill(RED)
             self.hitpoints -= 10
+            
+            # Player is killed, trigger jumpscare
+        
 #collision
     def collide_with_walls(self, dir):
         if dir == 'x':
