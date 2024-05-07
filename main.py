@@ -32,7 +32,7 @@ class Jumpscare():
     def __init__(self, screen_width, screen_height):
         self.jumpscares = pg.image.load(path.join(img_folder, 'jumpscare1.jpg')).convert_alpha()
         # Scale jumpscare image to match screen resolution
-        self.jumpscares = pg.transform.scale(self.jumpscares, (screen_width, screen_height))
+        self.jumpscares = pg.transform.scale(self.jumpscares, (1024, 768))
 
     def trigger_jumpscare(self, screen):
         screen.blit(self.jumpscares, (0, 0))  # Blit the jumpscare onto the screen
@@ -55,16 +55,23 @@ jumpscare = Jumpscare(screen_width, screen_height)
 #enemy_attack_chance = 100  # Adjust probability as needed
 
 # Game loop
-#running = True
+running = True
 
-    # Simulate enemy attack
-#if player_health > 0 and random.random() < enemy_attack_chance:
-        # Player is attacked by enemy
-       # player_health -= 10  # Decrease player's health
-        #if player_health <= 0:
-            # Player is killed, trigger jumpscare
-            #jumpscare.trigger_jumpscare(screen)
+jumpscare = Jumpscare(screen, screen_height)
 
+# Create a Super object
+#super_object = Super(random.randint(0, screen_width), random.randint(0, screen_height))
+
+# Create a sprite group for collision detection
+#all_sprites = pg.sprite.Group
+
+jumpscare.trigger_jumpscare(screen)
+
+#hits = pg.sprite.spritecollide(Super, dokill=1, group=2)
+#if hits:
+    #jumpscare.trigger_jumpscare(screen)
+
+pg.display.flip()
     # Update display
 pg.display.update()
 
@@ -208,11 +215,11 @@ class Game:
         if self.player.moneybag > 15:
             self.change_level('mapp.txt')
         self.enemy_spawn_timer += self.dt
-        if self.enemy_spawn_timer > 100:
+        if self.enemy_spawn_timer == (5-10):
             self.spawn_enemies()
-            self.enemy_spawn_timer = 10
+            self.enemy_spawn_timer == (5-10)
         
-
+#randomly spawn enemies
     def spawn_enemies(self):
         for _ in range(12):
             col = random.randint(0, len(self.map_data[0]) - 1)  # Random column

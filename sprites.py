@@ -376,10 +376,10 @@ class Super(pg.sprite.Sprite):
 
 
     def spawn(self, WIDTH, HEIGHT):
-        # Set initial position to a random location within the game area
+        # Spawn enemies in random places
         self.rect.x = random.randint(0, WIDTH - TILESIZE)
         self.rect.y = random.randint(0, HEIGHT - TILESIZE)
-        # Ensure enemy does not spawn on top of player
+        # Stops enemies from spawning on player
         while self.game.player and self.rect.colliderect(self.game.player.rect):
             self.rect.x = random.randint(0, WIDTH - TILESIZE)
             self.rect.y = random.randint(0, HEIGHT - TILESIZE)
