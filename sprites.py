@@ -374,12 +374,12 @@ class Super(pg.sprite.Sprite):
         self.hitpoints = 1
         self.spawn(WIDTH, HEIGHT)
 
-
+#Coded in assistance with friend
     def spawn(self, WIDTH, HEIGHT):
-        # Spawn enemies in random places
+        # Spawn mobs in different places
         self.rect.x = random.randint(0, WIDTH - TILESIZE)
         self.rect.y = random.randint(0, HEIGHT - TILESIZE)
-        # Stops enemies from spawning on player
+        # Creates collision for spawn
         while self.game.player and self.rect.colliderect(self.game.player.rect):
             self.rect.x = random.randint(0, WIDTH - TILESIZE)
             self.rect.y = random.randint(0, HEIGHT - TILESIZE)

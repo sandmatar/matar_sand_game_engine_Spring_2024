@@ -1,6 +1,7 @@
 # This file was created by: Sandryan Matar
 # My first source control edit
-
+#Sources:
+#ChatGPT
 # New map, new enemies, kill enemies
 # jump verb
 
@@ -8,7 +9,7 @@
  #First goal; more obstacles against the player (Random spawning)
  #Second goal; more maps
 
-
+#Final goal: Jumpscare
 
 
 
@@ -26,7 +27,9 @@ import pygame.display
 LEVEL1 = "map.txt"
 LEVEL2 = "mapp.txt"
 
-#made in assistance with ChatGPT
+#Coded in assistance with ChatGPT
+#Jumpscare image used from Adobe Stock
+#Creates a scary image upon opening game
 pg.display
 class Jumpscare():
     def __init__(self, screen_width, screen_height):
@@ -47,29 +50,17 @@ screen_width = 1024
 screen_height = 768
 screen = pg.display.set_mode((screen_width, screen_height))
 
-# Create an instance of Jumpscare
+# Make an instance of Jumpscare
 jumpscare = Jumpscare(screen_width, screen_height)
 
-# Simulate enemies and player
-#player_health = 10
-#enemy_attack_chance = 100  # Adjust probability as needed
 
 # Game loop
 running = True
 
 jumpscare = Jumpscare(screen, screen_height)
 
-# Create a Super object
-#super_object = Super(random.randint(0, screen_width), random.randint(0, screen_height))
-
-# Create a sprite group for collision detection
-#all_sprites = pg.sprite.Group
 
 jumpscare.trigger_jumpscare(screen)
-
-#hits = pg.sprite.spritecollide(Super, dokill=1, group=2)
-#if hits:
-    #jumpscare.trigger_jumpscare(screen)
 
 pg.display.flip()
     # Update display
@@ -219,7 +210,7 @@ class Game:
             self.spawn_enemies()
             self.enemy_spawn_timer == (5-10)
         
-#randomly spawn enemies
+#randomly spawn enemies/coded in assistance with friend and Mr. Cozort
     def spawn_enemies(self):
         for _ in range(12):
             col = random.randint(0, len(self.map_data[0]) - 1)  # Random column
